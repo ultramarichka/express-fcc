@@ -1,4 +1,4 @@
-## 1.HELLO WORLD!
+## 1. HELLO WORLD!
 
 Create an Express.js app that outputs "Hello World!" when somebody goes to /home.
 
@@ -16,7 +16,7 @@ app.get('/home', function(req, res){
 app.listen(process.argv[2]);
 ```
 
-## 2.STATIC
+## 2. STATIC
 
 Apply static middleware to serve index.html file without any routes.
 
@@ -36,7 +36,7 @@ process.argv[3]. However, you can use your own file with this content:
       </body>
     </html>
 ```
-# HINTS
+### HINTS
 
 This is how you can call static middleware:
 
@@ -57,7 +57,7 @@ var app = express();
 app.listen(process.argv[2]);
 ```
 
-## 3.JADE tamplate enging
+## 3. JADE/PUG tamplate enging
 
 Create an Express.js app with a home page rendered by Jade template engine.
 
@@ -65,7 +65,7 @@ The homepage should respond to /home.
 
 The view should show the current date using toDateString.
 
-# HINTS
+### HINTS
 
 The Jade template file index.jade is already provided:
 
@@ -108,4 +108,60 @@ app.get('/home', function(req, res){
 
 app.listen(process.argv[2]);
 ```
+## 4. FORM (POST)
+
+Write a route ('/form') that processes HTML form input
+(<form><input name="str"/></form>) and prints backwards the str value.
+
+# HINTS
+
+To handle POST request use the post() method which is used the same way as get():
+
+    app.post('/path', function(req, res){...})
+
+Express.js uses middleware to provide extra functionality to your web server.
+
+Simply put, a middleware is a function invoked by Express.js before your own
+request handler.
+
+Middlewares provide a large variety of functionalities such as logging, serving
+static files and error handling.
+
+A middleware is added by calling use() on the application and passing the
+middleware as a parameter.
+
+To parse x-www-form-urlencoded request bodies Express.js can use urlencoded()
+middleware from the body-parser module.
+
+    var bodyparser = require('body-parser')
+    app.use(bodyparser.urlencoded({extended: false}))
+
+Read more about Connect middleware here:
+
+  [https://github.com/senchalabs/connect#middleware](https://github.com/senchalabs/connect#middleware)
+
+The documentation of the body-parser module can be found here:
+
+  [https://github.com/expressjs/body-parser](https://github.com/expressjs/body-parser)
+
+Here is how we can flip the characters:
+
+    req.body.str.split('').reverse().join('')
+
+```javascript
+var express = require("express");
+var bodyParser = require('body-parser');
+
+var app = express();
+
+app.use(bodyParser.urlencoded({ extended: false }));
+
+app.post('/form', function(req, res){
+  res.end(req.body.str.split('').reverse().join(''));
+});
+
+
+app.listen(process.argv[2]);
+```
+
 
