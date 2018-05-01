@@ -366,8 +366,10 @@ app.get('/books', function(req, res){
 });
 
 app.listen(process.argv[2]);
+```
 
-/* official solution
+official solution
+```javascript
 var express = require('express')
     var app = express()
     var fs = require('fs')
