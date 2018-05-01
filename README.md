@@ -223,6 +223,41 @@ app.listen(process.argv[2]);
 
 ## 6. PUT HASH
 
+Create an Express.js server that processes PUT `'/message/:id'` requests.
+
+For instance:
+
+```
+PUT /message/526aa677a8ceb64569c9d4fb
+```
+
+As a response to these requests, return the SHA1 hash of the current date
+plus the sent ID:
+
+```js
+require('crypto')
+  .createHash('sha1')
+  .update(new Date().toDateString() + id)
+  .digest('hex')
+```
+
+-----------------------------
+
+### HINTS
+
+To handle PUT requests use:
+
+```js
+app.put('/path/:NAME', function(req, res){...});
+```
+
+To extract parameters from within the request handlers, use:
+
+```js
+req.params.NAME
+```
+
+
 ```javascript
 var express = require("express");
 var crypto = require("crypto");
@@ -242,6 +277,27 @@ app.listen(process.argv[2]);
 
 ## 7. QUERY TO JSON
 
+Write a route that extracts data from query string in the GET `'/search'` URL
+route, e.g. `?results=recent&include_tabs=true` and then outputs it back to
+the user in JSON format.
+
+-----------------------------
+
+### HINTS
+
+In Express.js to extract query string parameters, we can use:
+
+```js
+req.query.NAME
+```
+
+To output JSON we can use:
+
+```js
+res.send(object)
+```
+
+
 ```javascript
 var express = require("express");
 
@@ -256,6 +312,37 @@ app.listen(process.argv[2]);
 ``` 
 
 ## 8. FILE TO JSON
+
+Write a server that reads a file, parses it to JSON and outputs the content
+to the user.
+
+The port is passed in `process.argv[2]`.  The file name is passed in `process.argv[3]`.
+
+Respond with:
+
+```js
+res.json(object)
+```
+
+Everything should match the '/books' resource path.
+
+
+-----------------------------
+
+### HINTS
+
+For reading, there's an fs module, e.g.,
+
+```js
+fs.readFile(filename, callback)
+```
+
+While the parsing can be done with `JSON.parse`:
+
+```js
+object = JSON.parse(string)
+```
+
 
 ```javascript
 var express = require("express");
