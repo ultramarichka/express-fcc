@@ -148,7 +148,7 @@ Here is how we can flip the characters:
 
     req.body.str.split('').reverse().join('')
 
-# NOTE
+### NOTE
 
 When creating your projects from scratch, install the body-parser dependency
 with npm by running:
@@ -221,5 +221,83 @@ app.use(express.static(process.argv[3])); //it worked with (__dirname + '/public
 app.listen(process.argv[2]);
 ```
 
+## 6. PUT HASH
 
+```javascript
+var express = require("express");
+var crypto = require("crypto");
+
+var app = express();
+
+app.put('/message/:id', function(req, res){
+    
+    var result = crypto.createHash('sha1')
+      .update(new Date().toDateString() + req.params.id)
+      .digest('hex');
+    res.send(result);
+});
+
+app.listen(process.argv[2]);
+```
+
+## 7. QUERY TO JSON
+
+```javascript
+var express = require("express");
+
+var app = express();
+
+app.get('/search', function(req, res){
+    var obj = req.query;
+    res.send(obj);
+});
+
+app.listen(process.argv[2]);
+``` 
+
+## 8. FILE TO JSON
+
+```javascript
+var express = require("express");
+var fs = require('fs');
+
+var app = express();
+ 
+var resultObj;
+function fileToJson(err, data){
+  if (err){
+    console.log("error");
+  } else {
+    resultObj = JSON.parse(data);
+    //console.log(resultObj);
+  }
+}
+
+fs.readFile(process.argv[3], fileToJson);
+app.get('/books', function(req, res){
+    res.json(resultObj);
+});
+
+app.listen(process.argv[2]);
+
+/* official solution
+var express = require('express')
+    var app = express()
+    var fs = require('fs')
+    
+    app.get('/books', function(req, res){
+      var filename = process.argv[3]
+      fs.readFile(filename, function(e, data) {
+        if (e) return res.send(500)
+        try {
+          books = JSON.parse(data)
+        } catch (e) {
+          res.send(500)
+        }
+        res.json(books)
+      })
+    })
+    
+    app.listen(process.argv[2])*/
+```
 
