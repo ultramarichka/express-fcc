@@ -113,7 +113,7 @@ app.listen(process.argv[2]);
 Write a route ('/form') that processes HTML form input
 (<form><input name="str"/></form>) and prints backwards the str value.
 
-# HINTS
+### HINTS
 
 To handle POST request use the post() method which is used the same way as get():
 
@@ -148,6 +148,15 @@ Here is how we can flip the characters:
 
     req.body.str.split('').reverse().join('')
 
+# NOTE
+
+When creating your projects from scratch, install the body-parser dependency
+with npm by running:
+
+    $ npm install body-parser
+
+…in your terminal.
+
 ```javascript
 var express = require("express");
 var bodyParser = require('body-parser');
@@ -160,8 +169,57 @@ app.post('/form', function(req, res){
   res.end(req.body.str.split('').reverse().join(''));
 });
 
+app.listen(process.argv[2]);
+```
+
+## 5. STYLISH CSS: STYLUS
+
+Style your HTML from previous example with some Stylus middleware.
+
+Your solution must listen on the port number supplied by process.argv[2].
+
+The path containing the HTML and Stylus files is provided in process.argv[3]
+(they are in the same directory). You can create your own folder and use these:
+
+The main.styl file:
+
+    p
+      color red
+
+The index.html file:
+
+    <html>
+      <head>
+        <title>expressworks</title>
+        <link rel="stylesheet" type="text/css" href="/main.css"/>
+      </head>
+      <body>
+        <p>I am red!</p>
+      </body>
+    </html>
+
+### HINTS
+
+To plug-in stylus someone can use this middleware:
+
+    app.use(require('stylus').middleware(__dirname + '/public'));
+
+Remember that you need also to serve static files.
+
+    npm install stylus
+
+```javascript
+var express = require("express");
+var stylus = require('stylus');
+var app = express();
+
+
+app.use(stylus.middleware(__dirname + '/public'));
+app.use(express.static(process.argv[3])); //it worked with (__dirname + '/public') why?
+//returns style document
 
 app.listen(process.argv[2]);
 ```
+
 
 
